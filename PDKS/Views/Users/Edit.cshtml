@@ -1,0 +1,30 @@
+﻿@model PDKS.Models.UpdateUserViewModel
+@{
+	ViewData["Title"] = "Edit User";
+}
+
+<h1>Edit User</h1>
+
+<form method="post" action="Edit" class="mt-5">
+    <div class="mb-3">
+        <label for="">Id</label>
+        <input class="form-control" asp-for="Id" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="">Username</label>
+        <input class="form-control" asp-for="Username">
+    </div>
+    <div class="mb-3">
+        <label for="">Password</label>
+        <input class="form-control" asp-for="Password">
+    </div>
+    <div class="mb-3">
+        <label for="">IsActive</label>
+        <input class="form-control" asp-for="IsActive">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-danger" asp-action="Delete" asp-controller="Users">Delete</button>
+
+</form>
+<br />
+<a href="/users"><- Go Back</a>

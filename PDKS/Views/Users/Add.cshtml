@@ -1,0 +1,24 @@
+﻿@model PDKS.Models.User
+@{
+    ViewData["Title"] = "Add User";
+}
+
+<h1>Add New User</h1>
+
+<form method="post" action="Add" class="mt-5">
+    <div class="mb-3">
+        <label for="">Username</label>
+        <input class="form-control" asp-for="Username" required>
+    </div>
+    <div class="mb-3">
+        <label for="">Password</label>
+        <input type="password" class="form-control" asp-for="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+<br />
+<div class="alert alert-warning" role="alert">
+    Error Part
+    @ViewData["error"]
+</div>
+<a href="/users"><- Go Back</a>
