@@ -94,7 +94,7 @@ namespace PDKS.Controllers
 
             if (user != null)
             {
-                user.IsActive = 0;
+                user.IsActive = false;
                 await _dbContext.SaveChangesAsync();
             }
             return RedirectToAction("Index");

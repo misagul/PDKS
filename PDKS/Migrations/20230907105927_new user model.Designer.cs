@@ -12,8 +12,8 @@ using PDKS.Data;
 namespace PDKS.Migrations
 {
     [DbContext(typeof(PDKSDbContext))]
-    [Migration("20230906063354_update user model")]
-    partial class updateusermodel
+    [Migration("20230907105927_new user model")]
+    partial class newusermodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,15 +31,13 @@ namespace PDKS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IsActive")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

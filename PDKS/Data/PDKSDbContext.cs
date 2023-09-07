@@ -8,7 +8,7 @@ namespace PDKS.Data
         public PDKSDbContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<User> Users { get; set; }
+        public DbSet<Log> Logs { get; set; }
     }
 }

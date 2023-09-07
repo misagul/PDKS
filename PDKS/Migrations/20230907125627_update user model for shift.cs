@@ -5,13 +5,13 @@
 namespace PDKS.Migrations
 {
     /// <inheritdoc />
-    public partial class updateusermodel : Migration
+    public partial class updateusermodelforshift : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "IsActive",
+                name: "Shift",
                 table: "Users",
                 type: "int",
                 nullable: false,
@@ -22,7 +22,7 @@ namespace PDKS.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsActive",
+                name: "Shift",
                 table: "Users");
         }
     }

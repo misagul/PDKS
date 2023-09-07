@@ -32,8 +32,16 @@ namespace PDKS.Controllers
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == loginUserRequest.Username && x.Password == loginUserRequest.Password);
             if (user != null)
             {
-                HttpContext.Session.SetString("loggedUser", user.Username);
-                return RedirectToAction("Index", "Home");
+                if (user.IsActive)
+                {
+                    HttpContext.Session.SetString("loggedUser", user.Username);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["loginError"] = "User is deleted.";
+                    return View();
+                }
             }
             else
             {
