@@ -1,0 +1,38 @@
+﻿@model PDKS.Models.User
+@{
+    ViewData["Title"] = "Login";
+}
+
+@if(TempData["loggedUser"] != null)
+{
+    Html.Partial("Home");
+}
+else
+{
+    <h1>Login @ViewData["test"]</h1>
+
+    <form method="post" action="Login" class="mt-5">
+        <div class="mb-3">
+            <label for="">Username</label>
+            <input class="form-control" asp-for="Username" required>
+        </div>
+        <div class="mb-3">
+            <label for="">Password</label>
+            <input type="password" class="form-control" asp-for="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <br />
+    @if (TempData["loginError"] != null)
+    {
+        <div class="alert alert-warning" role="alert">
+            @TempData["loginError"]
+        </div>
+    }
+    <script>
+        setTimeout(function () {
+            $(".alert-warning").hide();
+        }, 3000);
+    </script>
+
+}

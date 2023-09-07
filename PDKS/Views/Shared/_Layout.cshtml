@@ -22,9 +22,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (ViewBag.loggedUser == "admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                            </li>
+                        }
+                        @if (ViewBag.loggedUser == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            </li>
+                        }
+                        else
+                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <form method="post" action="Login/Logout">
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            </form>
                         </li>
+                        }
                     </ul>
                 </div>
             </div>

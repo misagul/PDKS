@@ -46,8 +46,8 @@ namespace PDKS.Controllers
             }
             else
             {
-                ViewData["error"] = "Username already exist";
-                return RedirectToAction("Add");
+                TempData["addUserError"] = "Username already exist";
+                return View();
             }
         }
 

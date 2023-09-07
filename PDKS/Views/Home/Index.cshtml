@@ -3,6 +3,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome @ViewBag.loggedUser</h1>
+    @if (ViewBag.loggedUser != null && ViewBag.loggedUser != "admin")
+    {
+        <br />
+        <button formaction="" style="height:200px;width:300px; font-size:3em" class="btn-primary">Press</button>
+    }
 </div>

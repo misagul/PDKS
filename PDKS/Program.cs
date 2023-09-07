@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PDKSDbContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("PDKSConnectionString")));
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -23,8 +24,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

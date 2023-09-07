@@ -7,7 +7,6 @@ namespace PDKS.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -15,6 +14,7 @@ namespace PDKS.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             return View();
         }
 

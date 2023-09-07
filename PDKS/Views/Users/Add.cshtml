@@ -17,8 +17,11 @@
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
 <br />
-<div class="alert alert-warning" role="alert">
-    Error Part
-    @ViewData["error"]
-</div>
+
+@if (TempData["addUserError"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @TempData["addUserError"]
+    </div>
+}
 <a href="/users"><- Go Back</a>
