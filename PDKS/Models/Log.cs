@@ -12,8 +12,7 @@ namespace PDKS.Models
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd.MM.yyyy HH:mm:ss}")]
         public DateTime DateTime { get; set; }
-
-
+        public int Shift { get; set; }
         public bool OnTime { get; set; }
 
         public Log()

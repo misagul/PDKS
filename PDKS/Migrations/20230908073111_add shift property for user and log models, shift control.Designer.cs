@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PDKS.Data;
 
@@ -11,9 +12,11 @@ using PDKS.Data;
 namespace PDKS.Migrations
 {
     [DbContext(typeof(PDKSDbContext))]
-    partial class PDKSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230908073111_add shift property for user and log models, shift control")]
+    partial class addshiftpropertyforuserandlogmodelsshiftcontrol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

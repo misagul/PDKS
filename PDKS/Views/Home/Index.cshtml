@@ -1,13 +1,32 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome @ViewBag.loggedUser</h1>
     @if (ViewBag.loggedUser != null && ViewBag.loggedUser != "admin")
     {
+        @if (ViewBag.curShift != null)
+        {
+            <h3>Current shift: @ViewBag.curShift</h3>        
+        }
         <br /><br />
-        <button formaction="" style="height:200px;width:300px; font-size:3em" class="btn-primary">Press</button>
+        <form method="POST" action="Logs/Press">
+            <button type="submit" style="height:200px;width:300px; font-size:3em" class="btn-primary">Press</button>
+        </form>
+    }
+    <br /> 
+    @if (ViewBag.pressStatus != null)
+    {
+        <div class="mx-auto alert alert-primary w-50 rounded" role="alert">
+            @ViewBag.pressStatus
+        </div>
     }
 </div>
+<script>
+    setTimeout(function () {
+        $(".alert-primary").hide();
+    }, 3000);
+</script>
  

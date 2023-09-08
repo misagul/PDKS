@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PDKS.Data;
 using PDKS.Models;
+using System.Collections;
 
 namespace PDKS.Controllers
 {
@@ -32,14 +33,14 @@ namespace PDKS.Controllers
             if (!user)
             {
                 
-                var new_user = new User
+                var newUser = new User
                 {
                     Id = Guid.NewGuid(),
                     Username = addUserRequest.Username,
                     Password = addUserRequest.Password,
                 };
 
-                await _dbContext.Users.AddAsync(new_user);
+                await _dbContext.Users.AddAsync(newUser);
                 await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction("Index");
@@ -63,6 +64,7 @@ namespace PDKS.Controllers
                     Username = user.Username,
                     Password = user.Password,
                     IsActive = user.IsActive,
+                    Shift = user.Shift,
                 };
 
                 return View(viewModel);
@@ -72,7 +74,7 @@ namespace PDKS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateUserViewModel updateUserRequest)
+        public async Task<IActionResult> Update(UpdateUserViewModel updateUserRequest)
         {
             var user = await _dbContext.Users.FindAsync(updateUserRequest.Id);
 
@@ -81,6 +83,7 @@ namespace PDKS.Controllers
                 user.Username = updateUserRequest.Username;
                 user.Password = updateUserRequest.Password;
                 user.IsActive = updateUserRequest.IsActive;
+                user.Shift = updateUserRequest.Shift;
 
                 await _dbContext.SaveChangesAsync();
 
@@ -98,6 +101,23 @@ namespace PDKS.Controllers
                 await _dbContext.SaveChangesAsync();
             }
             return RedirectToAction("Index");
+        }
+
+		[HttpGet]
+        public async Task<IActionResult> Graphs()
+        {
+            var allLogs = await _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
+			var failLogs = await _dbContext.Logs.Include("User").Where(x => !x.OnTime).OrderBy(y=>y.User.Username).GroupBy(z => z.User.Username).ToListAsync();
+			//logs[0].ToArray()[0].DateTime;
+			
+
+
+            ViewBag.test = allLogs[0].Count();
+			ViewBag.test2 = failLogs[0].Count();
+			ViewBag.test3 = allLogs[0].Key;
+
+
+			return View();
         }
     }
 }

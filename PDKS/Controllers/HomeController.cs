@@ -15,13 +15,13 @@ namespace PDKS.Controllers
         public IActionResult Index()
         {
             ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
+            ViewBag.pressStatus = HttpContext.Session.GetString("pressStatus");
+            ViewBag.curShift = HttpContext.Session.GetString("curShift");
+            HttpContext.Session.Remove("pressStatus");
+            
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
