@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PDKS.Data;
 using PDKS.Models;
@@ -17,7 +18,9 @@ namespace PDKS.Controllers
 		public async Task<IActionResult> Index()
 		{
             var users = await _dbContext.Users.ToListAsync();
-			return View(users);
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
+
+            return View(users);
 		}
 
 		[HttpGet]
@@ -29,6 +32,7 @@ namespace PDKS.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddUserViewModel addUserRequest)
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             var user = await _dbContext.Users.AnyAsync(x => x.Username == addUserRequest.Username);
             if (!user)
             {
@@ -55,6 +59,7 @@ namespace PDKS.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 
             if (user != null) {
@@ -74,8 +79,9 @@ namespace PDKS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateUserViewModel updateUserRequest)
+        public async Task<IActionResult> Edit(UpdateUserViewModel updateUserRequest)
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             var user = await _dbContext.Users.FindAsync(updateUserRequest.Id);
 
             if (user != null)
@@ -106,6 +112,7 @@ namespace PDKS.Controllers
 		[HttpGet]
         public async Task<IActionResult> Logs()
         {
+
             var logs = await _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
 			//var failLogs = await _dbContext.Logs.Include("User").Where(x => !x.OnTime).OrderBy(y=>y.User.Username).GroupBy(z => z.User.Username).ToListAsync();
 			//ViewBag.logs = logs[0].ToArray()[0].UserId;
@@ -127,12 +134,13 @@ namespace PDKS.Controllers
         [HttpGet]
         public IActionResult Charts()
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             return View();
         }
 
 		public JsonResult GetChartData()
 		{
-			var logs =  _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y => y.User.Username).ToList();
+            var logs =  _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y => y.User.Username).ToList();
 			
             ChartDataModel _chart = new ChartDataModel();
             List<string> labels = new List<string>();

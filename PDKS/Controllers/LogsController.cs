@@ -35,6 +35,7 @@ namespace PDKS.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             var logs = await _dbContext.Logs.Include("User").OrderBy(x=>x.User.Username).ThenBy(x=>x.Shift).ToListAsync();
 
 			return View(logs);
@@ -90,6 +91,7 @@ namespace PDKS.Controllers
         [HttpPost]
         public async Task<IActionResult> Press()
         {
+            ViewBag.loggedUser = HttpContext.Session.GetString("loggedUser");
             string username = HttpContext.Session.GetString("loggedUser");
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
             int curShift = -1;
