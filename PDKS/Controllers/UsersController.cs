@@ -104,20 +104,26 @@ namespace PDKS.Controllers
         }
 
 		[HttpGet]
-        public async Task<IActionResult> Graphs()
+        public async Task<IActionResult> Logs()
         {
-            var allLogs = await _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
-			var failLogs = await _dbContext.Logs.Include("User").Where(x => !x.OnTime).OrderBy(y=>y.User.Username).GroupBy(z => z.User.Username).ToListAsync();
-			//logs[0].ToArray()[0].DateTime;
-			
+            var logs = await _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
+			//var failLogs = await _dbContext.Logs.Include("User").Where(x => !x.OnTime).OrderBy(y=>y.User.Username).GroupBy(z => z.User.Username).ToListAsync();
+			//ViewBag.logs = logs[0].ToArray()[0].UserId;
 
+			List<UsersLogsViewModel> usersLogs = new List<UsersLogsViewModel>();
+            foreach (var log in logs)
+            {
+                UsersLogsViewModel newLog = new UsersLogsViewModel
+                {
+                    UserId = log.Key,
+                    Logs = log.OrderBy(x => x.Shift).ToList()
+                };
+				usersLogs.Add(newLog);
+			}
 
-            ViewBag.test = allLogs[0].Count();
-			ViewBag.test2 = failLogs[0].Count();
-			ViewBag.test3 = allLogs[0].Key;
+            System.Diagnostics.Debug.WriteLine(usersLogs);
 
-
-			return View();
+			return View(usersLogs);
         }
     }
 }

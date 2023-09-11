@@ -1,0 +1,54 @@
+﻿@model List<PDKS.Models.UsersLogsViewModel>
+@{
+	ViewData["Title"] = "Logs";
+}
+
+
+
+<h1>Users Logs</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>08:00</th>
+			<th>08:30</th>
+			<th>09:00</th>
+			<th>09:30</th>
+			<th>10:00</th>
+			<th>10:30</th>
+			<th>11:00</th>
+			<th>11:30</th>
+			<th>12:00</th>
+			<th>13:30</th>
+			<th>14:00</th>
+			<th>14:30</th>
+			<th>15:00</th>
+			<th>15:30</th>
+			<th>16:00</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+
+		@foreach(var log in Model)
+		{
+			<tr>
+				<td>@log.UserId</td>
+				@foreach(var shift in log.Logs)
+				{
+					@if (shift.OnTime)
+					{
+						<td class="table-success"></td>
+					}
+					else
+					{
+						<td class="table-danger"></td>
+					}
+					
+				}
+			</tr>
+		}
+	</tbody>
+</table>
