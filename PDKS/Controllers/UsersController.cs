@@ -115,15 +115,55 @@ namespace PDKS.Controllers
             {
                 UsersLogsViewModel newLog = new UsersLogsViewModel
                 {
-                    UserId = log.Key,
+                    Username = log.Key,
                     Logs = log.OrderBy(x => x.Shift).ToList()
                 };
 				usersLogs.Add(newLog);
 			}
 
-            System.Diagnostics.Debug.WriteLine(usersLogs);
-
 			return View(usersLogs);
         }
-    }
+
+        [HttpGet]
+        public IActionResult Charts()
+        {
+            return View();
+        }
+
+		public JsonResult GetChartData()
+		{
+			var logs =  _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y => y.User.Username).ToList();
+			
+            ChartDataModel _chart = new ChartDataModel();
+            List<string> labels = new List<string>();
+            List<ChartDataModel.Datasets> _dataSet = new List<ChartDataModel.Datasets>();
+
+            ChartDataModel.Datasets successData = new ChartDataModel.Datasets();
+            successData.data = new List<int>();
+            successData.label = "OnTime";
+            successData.backgroundColor = "#00ff00";
+            foreach (var log in logs)
+            {
+                labels.Add(log.Key);
+
+                successData.data.Add(log.Where(x => x.OnTime).Count());
+            }
+            _dataSet.Add(successData);
+            
+            ChartDataModel.Datasets failData = new ChartDataModel.Datasets();
+            failData.data = new List<int>();
+            failData.label = "NotOnTime";
+            failData.backgroundColor = "#ff0000";
+            foreach (var log in logs)
+            {
+                failData.data.Add(log.Where(x => !x.OnTime).Count());
+            }
+
+            _dataSet.Add(failData);
+            _chart.datasets = _dataSet;
+            _chart.labels = labels;
+            return Json(_chart);
+
+        }
+	}
 }

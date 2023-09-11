@@ -35,16 +35,16 @@
 		@foreach(var log in Model)
 		{
 			<tr>
-				<td>@log.UserId</td>
+				<td>@log.Username</td>
 				@foreach(var shift in log.Logs)
 				{
 					@if (shift.OnTime)
 					{
-						<td class="table-success"></td>
+						<td class="" style="background-color: #1aff1a"></td>
 					}
 					else
 					{
-						<td class="table-danger"></td>
+						<td style="background-color: #ff1a1a"></td>
 					}
 					
 				}

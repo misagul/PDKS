@@ -1,0 +1,33 @@
+﻿@{
+	ViewData["Title"] = "Charts";
+}
+
+<canvas id="barChart" ></canvas>
+
+<script>
+
+    $.ajax({
+        url: "/users/getchartdata",
+        type: 'get',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);   
+            var c = document.getElementById("barChart");
+            var ctx = c.getContext("2d");
+   
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+            });
+        }
+    });
+
+    //var data = { "labels": ["user1", "user2"], "datasets": [{ "label": "OnTime", "data": [1, 1], "backgroundColor": "#00ff00" }, { "label": "NotOnTime", "data": [10, 3], "backgroundColor": "#ff0000" }] };
+    
+    
+
+
+ 
+
+</script>

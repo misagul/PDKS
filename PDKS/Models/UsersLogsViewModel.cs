@@ -2,7 +2,7 @@
 {
 	public class UsersLogsViewModel
 	{
-		public string UserId { get; set; }
+		public string Username { get; set; }
 		public List<Log> Logs { get; set; }	
 	}
 }
