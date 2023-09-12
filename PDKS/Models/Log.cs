@@ -9,8 +9,6 @@ namespace PDKS.Models
         public Guid UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd.MM.yyyy HH:mm:ss}")]
         public DateTime DateTime { get; set; }
         public int Shift { get; set; }
         public bool OnTime { get; set; }

@@ -2,53 +2,68 @@
 @{
 	ViewData["Title"] = "Logs";
 }
+<div class="container text-center">
+	<form method="POST" action="Logs">
+		<input type="date" name="dateInput" class="p-2"/>
+		<button type="submit" class="btn btn-primary">Get Logs</button>
+	</form>
+</div>
 
 
+@if (Model != null)
+{
+	<h1>Users Logs</h1>
 
-<h1>Users Logs</h1>
-
-<table class="table">
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>08:00</th>
-			<th>08:30</th>
-			<th>09:00</th>
-			<th>09:30</th>
-			<th>10:00</th>
-			<th>10:30</th>
-			<th>11:00</th>
-			<th>11:30</th>
-			<th>12:00</th>
-			<th>13:30</th>
-			<th>14:00</th>
-			<th>14:30</th>
-			<th>15:00</th>
-			<th>15:30</th>
-			<th>16:00</th>
-			
-		</tr>
-	</thead>
-
-	<tbody>
-
-		@foreach(var log in Model)
-		{
+	<table class="table">
+		<thead>
 			<tr>
-				<td>@log.Username</td>
-				@foreach(var shift in log.Logs)
-				{
-					@if (shift.OnTime)
-					{
-						<td class="" style="background-color: #1aff1a"></td>
-					}
-					else
-					{
-						<td style="background-color: #ff1a1a"></td>
-					}
-					
-				}
+				<th>Username</th>
+				<th>08:00</th>
+				<th>08:30</th>
+				<th>09:00</th>
+				<th>09:30</th>
+				<th>10:00</th>
+				<th>10:30</th>
+				<th>11:00</th>
+				<th>11:30</th>
+				<th>12:00</th>
+				<th>13:30</th>
+				<th>14:00</th>
+				<th>14:30</th>
+				<th>15:00</th>
+				<th>15:30</th>
+				<th>16:00</th>
+
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+
+		<tbody>
+
+			@foreach (var log in Model)
+			{
+				<tr>
+					<td>@log.Username</td>
+					@foreach (var shift in log.Logs)
+					{
+						@if (shift.OnTime)
+						{
+							<td style="background-color: #1aff1a"></td>
+						}
+						else
+						{
+							<td style="background-color: #ff1a1a"></td>
+						}
+					}
+					@if(log.Logs.Count < 15)
+					{
+						@for(int i=log.Logs.Count; i<15; i++)
+						{
+							<td style="background-color: #787878"></td>
+
+						}
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+}

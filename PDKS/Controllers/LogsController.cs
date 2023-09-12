@@ -110,6 +110,22 @@ namespace PDKS.Controllers
             {
                 curShift = (int)Math.Round((curTimeSpan.TotalMinutes - new TimeSpan(9, 0, 0).TotalMinutes) / 30);
             }
+            
+            var lastLog = await _dbContext.Logs.Include("User").Where(x => x.User.Id == user.Id).OrderByDescending(y=>y.DateTime).FirstOrDefaultAsync();
+
+            if (lastLog == null)
+            {
+                user.Shift = 0;
+                _dbContext.SaveChanges();
+            }
+            else
+            {
+                if (lastLog.DateTime.Date != DateTime.Now.Date)
+                {
+                    user.Shift = 0;
+				    _dbContext.SaveChanges();
+                }
+            }
 
             if (curShift != -1)
             {

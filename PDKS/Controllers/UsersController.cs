@@ -109,11 +109,18 @@ namespace PDKS.Controllers
             return RedirectToAction("Index");
         }
 
-		[HttpGet]
-        public async Task<IActionResult> Logs()
+        [HttpGet]
+		public async Task<IActionResult> Logs()
         {
+            return View();
+        }
 
-            var logs = await _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
+        
+		[HttpPost]
+        public async Task<IActionResult> Logs(DateTime dateInput)
+        {
+            System.Diagnostics.Debug.WriteLine(dateInput.Date.ToString());
+            var logs = await _dbContext.Logs.Include("User").Where(x=>x.DateTime.Date == dateInput.Date).OrderBy(x => x.User.Username).GroupBy(y=>y.User.Username).ToListAsync();
 			//var failLogs = await _dbContext.Logs.Include("User").Where(x => !x.OnTime).OrderBy(y=>y.User.Username).GroupBy(z => z.User.Username).ToListAsync();
 			//ViewBag.logs = logs[0].ToArray()[0].UserId;
 
@@ -138,10 +145,13 @@ namespace PDKS.Controllers
             return View();
         }
 
-		public JsonResult GetChartData()
-		{
-            var logs =  _dbContext.Logs.Include("User").OrderBy(x => x.User.Username).GroupBy(y => y.User.Username).ToList();
-			
+        public JsonResult GetChartData()
+        {
+            //.Where(x=>x.DateTime.Date == DateTime.Now.Date)
+            var logs = _dbContext.Logs.Include("User")
+                .OrderBy(y => y.User.Username)
+                .GroupBy(z => z.User.Username).ToList();
+
             ChartDataModel _chart = new ChartDataModel();
             List<string> labels = new List<string>();
             List<ChartDataModel.Datasets> _dataSet = new List<ChartDataModel.Datasets>();
@@ -157,7 +167,7 @@ namespace PDKS.Controllers
                 successData.data.Add(log.Where(x => x.OnTime).Count());
             }
             _dataSet.Add(successData);
-            
+
             ChartDataModel.Datasets failData = new ChartDataModel.Datasets();
             failData.data = new List<int>();
             failData.label = "NotOnTime";
@@ -173,5 +183,5 @@ namespace PDKS.Controllers
             return Json(_chart);
 
         }
-	}
+    }
 }
